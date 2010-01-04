@@ -1,0 +1,112 @@
+/* general settings */
+* { margin: 0; padding: 0; font-size: 100%; } /* cross-browser */
+p { margin: 0.5em 0; } 
+th { background-color: #aaa; padding-left: 2em; padding-right: 2em }
+table { background-color: black }
+td { padding: 0; margin: 0; background-color: white; text-align: center; }
+.alternate { background-color: #dadada; }
+body { 
+	font-size: smaller;
+	font-family: verdana, arial, helvetica, sans-serif;
+	background-color: #aaa; 
+}
+a:hover { 
+	color: #000099;
+	background-color: #E6E6FF;  
+}
+#footer {
+    text-align: center;
+    background-color: #dadada; 
+    border-color: #c0c0ff;
+    color: inherit;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    margin-bottom: 0.2em;
+    padding-top: 0.75ex;
+    padding-bottom: 0.75ex;
+    min-height: 4.7ex;
+}
+
+#footer * {
+    background-color: inherit;
+    font-size: 92%;
+}
+
+/* common forms */
+form {
+	margin-left: auto;
+	margin-right: auto;	 /* form id="xxx", form#xxx { width: .. ems; } */
+	border: 1px solid #C7CDEF;
+	background-color: #f6f6f6;
+	padding-bottom: 10px; 
+}
+form#login { width: 38em; }  /* leave room for errors! */
+div#error { font-size: 150%; text-align: center; color: red; }
+div#form_instructions {
+    text-align: center;
+	margin: 0.5em 1em;
+	line-height: 1.5em;
+	font-family: arial, sans-serif;
+	}
+label {
+    text-align: right;
+    margin-top: 0.3em;
+    margin-right: 0.7em;
+    float: left;
+    width: 15em;
+    }
+/* :hover works on IE7 now! but not select: */
+label:hover, checkbox:hover, input:hover, textarea:hover, select:hover {
+	cursor: pointer;
+	}
+label:focus, checkbox:focus, input:focus, textarea:focus { /* not supported on IE */
+	background-color: #FEFFE8;
+	cursor: text;
+	}
+input, textarea, select {
+	border: 1px solid #aaa;
+	padding: 2px;  /* a little more breathing room inside text boxes */
+	font-size: 110%; /* why is this needed? */
+	}
+select:focus {
+	background-color: #FEFFE8;
+	cursor: default;
+}
+.button {
+	font-family: arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: black;
+	background-color: #ddd;
+	border: 2px outset #ddd;
+	padding: 1px;
+	}
+.button:focus, .button:hover  {
+	background-color: #DFD6A2;
+	cursor: default;
+	}
+.button:active  {
+	border: 2px inset;
+	background-color: #FEFFE8;
+	}
+input[type="submit"] {
+    margin-left: 10em;
+	margin-top: 0.2em;
+}
+/* -- specific forms */
+/* login form */
+div#forgot_password {
+	font-size: 95%;
+}
+form#login label {
+	width: 13em;
+}
+/* error.html */
+div#error_page h1 {
+	text-align: center;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 120%;
+	color: #000099;
+}	
+div#error_page p {
+	margin-left: 6em;
+}
