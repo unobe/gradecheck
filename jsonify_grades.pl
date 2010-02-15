@@ -66,17 +66,17 @@ sub structure {
             #!! assignment->[3] is the number of points assignment is worth
             # handle excused and missing assignments
             if ($assignment_info->[3] =~ /^(?:A|D|R|U|)$/) {
-                $assignment_info->[5] = $total[0] += $assignment_info->[4];
+                $assignment_info->[5] = $totals[0] += $assignment_info->[4];
             }
             elsif ($assignment_info->[3] eq 'E') {
-                $assignment_info->[6] = $total[1] += $assignment_info->[4];
+                $assignment_info->[6] = $totals[1] += $assignment_info->[4];
             }
             else { # just points
-                $assignment_info->[7] = $total[2] += $assignment_info->[3];
+                $assignment_info->[7] = $totals[2] += $assignment_info->[3];
             }
             
             # and make sure to add the points possible
-            $assignment_info->[8] = $total[3] += $assignment_info->[4];
+            $assignment_info->[8] = $totals[3] += $assignment_info->[4];
 
             # add to assignments list
             push @$all_info, $assignment_info;
