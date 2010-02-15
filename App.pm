@@ -88,7 +88,7 @@ our @V = (
         },
         gradesheet => sub {
             my ($self, $v) = @_;
-            my $content = qq{<h1 align="center">Gradesheet (generated on ${\( scalar localtime(stat($App::CONFIG{PWD}.'/'.$App::CONFIG{DATAFILE} )[9]))} )</h1>};
+            my $content = qq{<h1 align="center">Gradesheet (generated on ${\( scalar localtime((stat($App::CONFIG{PWD}.'/'.$App::CONFIG{DATAFILE} ))[9]))} )</h1>};
             $content .= qq{<h1 align="center">};
             $content .= qq{| ID: XX$v->{last5} | Period $v->{student}->[0] };
             $content .= qq{| Grade Level: $v->{student}->[3] | Percentage: } . sprintf("%.02f", $v->{student}->[4]) . qq{% | </h1><br><br>};
