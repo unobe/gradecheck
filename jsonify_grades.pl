@@ -11,6 +11,7 @@ unlink $json_file; #delete all info before update
 my $hash = {};
 for my $file (@ARGV) {
     my ($assignments, $students) = extract($file);
+    # tack on the current class' assignment info to any data already stored:
     $hash = { %$hash, %{structure($assignments, $students)} };
 }
 store_json($hash, $json_file);
@@ -80,8 +81,9 @@ sub structure {
         for (0..(@$all_info-1)) {
             push @{$all_info->[$_]}, 0+$all_info->[$_]->[3], 0+$all_info->[$_]->[-1];
             if ($_ != 0) {
-                $all_info->[$_]->[-2] += $all_info->[$_-1]->[-2];
-                $all_info->[$_]->[-1] += $all_info->[$_-1]->[-1];
+                $all_info->[$_]->[-3] += $all_info->[$_-1]->[-3]; #  missed
+                $all_info->[$_]->[-2] += $all_info->[$_-1]->[-2]; #  earned
+                $all_info->[$_]->[-1] += $all_info->[$_-1]->[-1]; #  possible
             }
         }
         $record{$key} = [ $student_info, $all_info ];
