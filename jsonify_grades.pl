@@ -56,36 +56,32 @@ sub structure {
         # 11th element is blank
         shift @$student for 1..11;
 
-        # XXX: Refactor to include totals for {earned,unexcused,excused,possible} points
-        for my $assignment (@$assignments) {
-            # number, date, title, earned, unexcused, excused, possible
-            my $assignment_info = [ @{$assignment}[0..2] , 0, 0, 0, $assignment->[3] ];
+        my @totals = (); # running totals for: unexcused, excused, earned, and possible
+        # stored in reverse-chronological order, so make sure to go through them like that for totals
+        for my $assignment (reverse @$assignments) {
+            # assignment_info: number, date, title, earned, possible
+            my $assignment_info = [ @{$assignment}[0..2] , 0, $assignment->[3] ];
             $assignment_info->[3] = shift @$student;
 
+            #!! assignment->[3] is the number of points assignment is worth
             # handle excused and missing assignments
-            if ($assignment_info->[3] eq 'E') {
-                $assignment_info->[5] = $assignment->[3];
+            if ($assignment_info->[3] =~ /^(?:A|D|R|U|)$/) {
+                $assignment_info->[5] = $total[0] += $assignment_info->[4];
             }
-            elsif ($assignment_info->[3] =~ /^(?:A|D|R|U|)$/) {
-                $assignment_info->[4] = $assignment->[3];
+            elsif ($assignment_info->[3] eq 'E') {
+                $assignment_info->[6] = $total[1] += $assignment_info->[4];
             }
+            else { # just points
+                $assignment_info->[7] = $total[2] += $assignment_info->[3];
+            }
+            
+            # and make sure to add the points possible
+            $assignment_info->[8] = $total[3] += $assignment_info->[4];
 
             # add to assignments list
             push @$all_info, $assignment_info;
         }
 
-        # sort ascending by number
-        $all_info = [ sort { $a->[0] <=> $b->[0] } @$all_info ];
-        
-        # add running sum of total points earned and total points possible
-        for (0..(@$all_info-1)) {
-            push @{$all_info->[$_]}, 0+$all_info->[$_]->[3], 0+$all_info->[$_]->[-1];
-            if ($_ != 0) {
-                $all_info->[$_]->[-3] += $all_info->[$_-1]->[-3]; #  missed
-                $all_info->[$_]->[-2] += $all_info->[$_-1]->[-2]; #  earned
-                $all_info->[$_]->[-1] += $all_info->[$_-1]->[-1]; #  possible
-            }
-        }
         $record{$key} = [ $student_info, $all_info ];
     }
     return \%record;
