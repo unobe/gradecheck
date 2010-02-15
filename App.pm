@@ -88,10 +88,11 @@ our @V = (
         },
         gradesheet => sub {
             my ($self, $v) = @_;
-            my $content = qq{<h1 align="center">Gradesheet (generated on ${\( scalar localtime((stat($App::CONFIG{PWD}.'/'.$App::CONFIG{DATAFILE} ))[9]))} )</h1>};
+            my $gen_time = scalar localtime((stat($App::CONFIG{PWD}.'/'.$App::CONFIG{DATAFILE}))[9]);
+            my $content = qq{<h1 align="center">Gradesheet (generated at $gen_time )</h1>};
             $content .= qq{<h1 align="center">};
             $content .= qq{| ID: XX$v->{last5} | Period $v->{student}->[0] };
-            $content .= qq{| Grade Level: $v->{student}->[3] | Percentage: } . sprintf("%.02f", $v->{student}->[4]) . qq{% | </h1><br><br>};
+            $content .= qq{| Grade Level: $v->{student}->[3] | Percentage: } . sprintf("%.2f", $v->{student}->[4]) . qq{% | </h1><br><br>};
             $content .= q{<table><tr>} . (join '', map { "<th>$_</th>" } qw/# Date Title Earned Possible/, 'Total Unexcused', 'Total Excused', 'Total Earned', 'Total Possible') . q{</tr>};
             my $alternate = 0;
             for my $assignment (@{$v->{data}}) {
