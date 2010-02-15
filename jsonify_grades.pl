@@ -56,26 +56,29 @@ sub structure {
         # 11th element is blank
         shift @$student for 1..11;
 
-        my @totals = (); # running totals for: unexcused, excused, earned, and possible
+        my @totals = (0) x 4; # running totals for: unexcused, excused, earned, and possible
         # stored in reverse-chronological order, so make sure to go through them like that for totals
         for my $assignment (reverse @$assignments) {
             # assignment_info: number, date, title, earned, possible
-            my $assignment_info = [ @{$assignment}[0..2] , 0, $assignment->[3] ];
-            $assignment_info->[3] = shift @$student;
+            # need to pop student score since reverse-chronological order
+            my $assignment_info = [ @{$assignment}[0..2] , pop(@$student), $assignment->[3] ];
 
             #!! assignment->[3] is the number of points assignment is worth
             # handle excused and missing assignments
             if ($assignment_info->[3] =~ /^(?:A|D|R|U|)$/) {
-                $assignment_info->[5] = $totals[0] += $assignment_info->[4];
+                $totals[0] += 0+$assignment_info->[4];
             }
             elsif ($assignment_info->[3] eq 'E') {
-                $assignment_info->[6] = $totals[1] += $assignment_info->[4];
+                $totals[1] += $assignment_info->[4];
             }
             else { # just points
-                $assignment_info->[7] = $totals[2] += $assignment_info->[3];
+                $totals[2] += $assignment_info->[3];
             }
+            $assignment_info->[5] = $totals[0];
+            $assignment_info->[6] = $totals[1];
+            $assignment_info->[7] = $totals[2];
             
-            # and make sure to add the points possible
+            # always sure to add the points possible
             $assignment_info->[8] = $totals[3] += $assignment_info->[4];
 
             # add to assignments list
