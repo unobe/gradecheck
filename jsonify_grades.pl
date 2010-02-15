@@ -41,10 +41,10 @@ sub extract {
 sub structure {
     my ($assignments, $students) = @_;
     # period-last5 => [ [ period, id, name, grade_level, percent, earned,
-    # missed, excused, possible, teacher ], [ number, date, title, earned,
-    # missed, excused, possible, total_earned, total_possible ], [ number,
-    # date, title, earned, missed, excused, possible, total_earned,
-    # total_possible ] ]
+    # unexcused, excused, possible, teacher ], [ number, date, title, earned,
+    # possible, total_unexcused, total_excused, total_earned, total_possible ],
+    # [ number, date, title, earned, possible, total_unexcused, total_excused,
+    # total_earned, total_possible ] ]
     my %record;
     for my $student (@$students) {
         my $key = $student->[0].'-'.substr($student->[1], -5);
@@ -55,9 +55,9 @@ sub structure {
         # 11th element is blank
         shift @$student for 1..11;
 
-        # XXX: Refactor to include totals for {earned,missed,excused,possible} points
+        # XXX: Refactor to include totals for {earned,unexcused,excused,possible} points
         for my $assignment (@$assignments) {
-            # number, date, title, earned, missed, excused, possible
+            # number, date, title, earned, unexcused, excused, possible
             my $assignment_info = [ @{$assignment}[0..2] , 0, 0, 0, $assignment->[3] ];
             $assignment_info->[3] = shift @$student;
 
@@ -65,7 +65,7 @@ sub structure {
             if ($assignment_info->[3] eq 'E') {
                 $assignment_info->[5] = $assignment->[3];
             }
-            elsif ($assignment_info->[3] =~ /^(?:A|D|R|)$/) {
+            elsif ($assignment_info->[3] =~ /^(?:A|D|R|U|)$/) {
                 $assignment_info->[4] = $assignment->[3];
             }
 

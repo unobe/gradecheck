@@ -92,7 +92,7 @@ our @V = (
             $content .= qq{<h1 align="center">};
             $content .= qq{| ID: XX$v->{last5} | Period $v->{student}->[0] };
             $content .= qq{| Grade Level: $v->{student}->[3] | Percentage: $v->{student}->[4] | </h1><br><br>};
-            $content .= q{<table><tr>} . (join '', map { "<th>$_</th>" } qw/# Date Title Earned Missed Excused Possible/, 'Total Earned', 'Total Possible') . q{</tr>};
+            $content .= q{<table><tr>} . (join '', map { "<th>$_</th>" } qw/# Date Title Earned Unexcused Excused Possible/, 'Total Earned', 'Total Possible') . q{</tr>};
             my $alternate = 0;
             for my $assignment (@{$v->{data}}) {
                 for my $item (@$assignment) {
